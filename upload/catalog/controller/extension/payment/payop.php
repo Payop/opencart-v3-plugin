@@ -58,7 +58,7 @@ class ControllerExtensionPaymentPayop extends Controller {
 			'publicKey' => $this->config->get('payment_payop_public_id'),
 			'order' => array(
 				'id' => $order_info['order_id'],
-				'amount' => $order_info['total'],
+				'amount' => number_format($this->currency->format($order_info['total'], $order_info['currency_code'], '', false), 4),
 				'currency' => $order_info['currency_code'],
 				'description' => sprintf($this->language->get('order_description'), $order_info['order_id']),
 				'items' => $payop_order_items,
