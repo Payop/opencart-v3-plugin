@@ -21,7 +21,7 @@ You can issue  **Public key** and **Secret key** after register as merchant on P
 Opencart plugin work only with POST IPN request HTTP method.
 
 Use below parameters to configure your PayOp project:
-* **Callback/IPN URL**: https://{replace-with-your-domain}/admin/index.php?route=extension/payment/payop/callback
+* **Callback/IPN URL**: https://{replace-with-your-domain}/index.php?route=extension/payment/payop/callback
 
 ## Support
 
