@@ -91,7 +91,7 @@ class ControllerExtensionPaymentPayop extends Controller {
 			}
 		}
 
-		$data['ipn_url'] = $this->url->link('extension/payment/payop/callback');
+        $data['ipn_url'] = HTTP_CATALOG . 'index.php?route=extension/payment/payop/callback';
 
 		$this->load->model('localisation/order_status');
 		$data['order_statuses'] = $this->model_localisation_order_status->getOrderStatuses();
