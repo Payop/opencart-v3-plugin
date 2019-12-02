@@ -152,16 +152,6 @@ class ControllerExtensionPaymentPayop extends Controller {
 				' Error: ' . curl_error($this->curl). "\n"
 			);
 		}
-		$resp = json_decode($response);
-		if (count($resp->errors) > 0) {
-			$this->log->write('Payop Failed API request' . "\n" .
-				' Location: ' . $location . "\n" .
-				' Request: ' . print_r($request, true) . "\n" .
-				' Response: ' . print_r($response, true) . "\n" .
-				' HTTP Code: ' . curl_getinfo($this->curl, CURLINFO_HTTP_CODE) . "\n" .
-				' Error: ' . curl_error($this->curl) . "\n"
-			);
-		}
 		curl_close($this->curl);
 		return $response;
 	}

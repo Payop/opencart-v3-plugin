@@ -8,9 +8,6 @@
 		$('#button_pay').addClass('disabled');
 		$.get('{{ payop_url }}')
 			.done(function(data) {
-	    		if (data.errors.length > 0)
-	    			alert(data.errors[0].message)
-	    		else
 	    			window.location.href = data.data.redirectUrl;	    		    			    		    			    		
 	    	})
 	    	.always(function() {
