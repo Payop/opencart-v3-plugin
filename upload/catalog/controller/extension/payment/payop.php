@@ -53,7 +53,7 @@ class ControllerExtensionPaymentPayop extends Controller {
             'publicKey' => $this->config->get('payment_payop_public_id'),
             'order' => array(
                 'id' => $order_info['order_id'],
-                'amount' => number_format($this->currency->format($order_info['total'], $order_info['currency_code'], '', false), 4),
+                'amount' => number_format($this->currency->format($order_info['total'], $order_info['currency_code'], '', false), 4, ".", ""),
                 'currency' => $order_info['currency_code'],
                 'description' => sprintf($this->language->get('order_description'), $order_info['order_id']),
                 'items' => $payop_order_items,
@@ -67,7 +67,7 @@ class ControllerExtensionPaymentPayop extends Controller {
             'failPath' => $this->url->link('checkout/failure'),
             'language' => $this->language->get('code')
         );
-        $request['signature'] = $this->generate_signature($request['order']['id'], $request['order']['amount'], $request['order']['currency'], $this->config->get('payment_payop_secret_key'));
+        $request['signature'] = $this->generate_signature($request['order']['id'], $request['order']['amount'], $request['order']['currency'], $this->config->get('payment_payop_secret_key'), false);
         $this->model_checkout_order->addOrderHistory($order_info['order_id'], $this->config->get('payment_payop_order_status_wait'));
         $invoiceId = $this->makeRequest($request);
         if ($invoiceId === '') {
@@ -96,8 +96,8 @@ class ControllerExtensionPaymentPayop extends Controller {
                         $this->log->write('Error callback: '. $this->callback_check($callback));
                     }
                 } else {
-                    $signature = $this->generate_signature($callback->orderId, $callback->amount, $callback->currency, $this->config->get('payment_payop_secret_key'));
-                    if ($callback->signature == hash('sha256', $signature)) {
+                    $signature = $this->generate_signature($callback->orderId, $callback->amount, $callback->currency, $this->config->get('payment_payop_secret_key'), $callback->status);
+                    if ($callback->signature == $signature) {
                         $this->load->model('checkout/order');
                         if ($callback->status === 'success') {
                             $this->model_checkout_order->addOrderHistory($callback->orderId, $this->config->get('payment_payop_order_status_success'));
@@ -107,7 +107,7 @@ class ControllerExtensionPaymentPayop extends Controller {
                             $this->log->write("Payop Callback invalid signature\n" . print_r(file_get_contents('php://input'), true));
                         }
                     } else {
-                        $this->log("Payop Callback is not valid");
+                        $this->log->write("Payop Callback is not valid");
                     }
                 }
             } else {
@@ -124,28 +124,28 @@ class ControllerExtensionPaymentPayop extends Controller {
      * @return bool|array
      */
     private function makeRequest($request = array()) {
-		$request = json_encode($request);
-		if (!$this->curl) {
-			$this->curl = curl_init();
-        	curl_setopt($this->curl, CURLOPT_URL, 'https://payop.com/v1/invoices/create');
-        	curl_setopt($this->curl, CURLOPT_SSL_VERIFYPEER, false);
-        	curl_setopt($this->curl, CURLOPT_RETURNTRANSFER, true);
-        	curl_setopt($this->curl, CURLOPT_HEADER, true);
-		}
+        $request = json_encode($request);
+        if (!$this->curl) {
+            $this->curl = curl_init();
+            curl_setopt($this->curl, CURLOPT_URL, 'https://payop.com/v1/invoices/create');
+            curl_setopt($this->curl, CURLOPT_SSL_VERIFYPEER, false);
+            curl_setopt($this->curl, CURLOPT_RETURNTRANSFER, true);
+            curl_setopt($this->curl, CURLOPT_HEADER, true);
+        }
         curl_setopt($this->curl, CURLOPT_HTTPHEADER, array(
-                'Content-Type: application/json',
+          'Content-Type: application/json',
         ));
         curl_setopt($this->curl, CURLOPT_CUSTOMREQUEST, 'POST');
         curl_setopt($this->curl, CURLOPT_POSTFIELDS, $request);
         $response = curl_exec($this->curl);
-		if ($response === false || curl_getinfo($this->curl, CURLINFO_HTTP_CODE) != 200) {
-			$this->log->write('Payop Failed API request' . "\n" .
-				' Request: ' . print_r($request, true) . "\n" .
-				' Response: ' . print_r($response, true) . "\n" .
-				' HTTP Code: ' . curl_getinfo($this->curl, CURLINFO_HTTP_CODE) . "\n" .
-				' Error: ' . curl_error($this->curl). "\n"
-			);
-		}
+        if ($response === false || curl_getinfo($this->curl, CURLINFO_HTTP_CODE) != 200) {
+            $this->log->write('Payop Failed API request' . "\n" .
+              ' Request: ' . print_r($request, true) . "\n" .
+              ' Response: ' . print_r($response, true) . "\n" .
+              ' HTTP Code: ' . curl_getinfo($this->curl, CURLINFO_HTTP_CODE) . "\n" .
+              ' Error: ' . curl_error($this->curl). "\n"
+            );
+        }
         $header_size = curl_getinfo($this->curl, CURLINFO_HEADER_SIZE);
         curl_close($this->curl);
         $headers = substr($response, 0, $header_size);
@@ -153,7 +153,7 @@ class ControllerExtensionPaymentPayop extends Controller {
         $invoice_identifier = preg_grep("/^identifier/", $headers);
         $invoice_identifier = implode(',' , $invoice_identifier);
         $invoice_identifier = substr($invoice_identifier, strrpos($invoice_identifier, ':')+2);
-		return $invoice_identifier;
+        return $invoice_identifier;
     }
 
     /**
@@ -182,14 +182,18 @@ class ControllerExtensionPaymentPayop extends Controller {
         return 'valid';
     }
 
-    private function generate_signature($orderId, $amount, $currency, $secretKey)
+    private function generate_signature($orderId, $amount, $currency, $secretKey, $status)
     {
         $sign_str = ['id' => $orderId, 'amount' => $amount, 'currency' => $currency];
         ksort($sign_str, SORT_STRING);
         $sign_data = array_values($sign_str);
+        if ($status) {
+            array_push($sign_data, $status);
+        }
         array_push($sign_data, $secretKey);
         return hash('sha256', implode(':', $sign_data));
     }
 }
+
 
 
