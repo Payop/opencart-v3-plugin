@@ -51,7 +51,6 @@ please fork this repository and submit a pull request detailing your changes.  W
 This open source project is released under the [MIT license](http://opensource.org/licenses/MIT)
 which means if you would like to use this project's code in your own project you are free to do so.
 
-
 ## License
 
 Please refer to the 
