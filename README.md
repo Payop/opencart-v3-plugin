@@ -3,11 +3,11 @@ Opencart v3 Payop Payment Gateway
 
 ## Brief Description
 
-The OpenCart v3 Payop Payment Gateway is a plugin that enables you to accept payments in OpenCart version 3 and later via Payop.com.
+The OpenCart v3 Payop Payment Gateway is a plugin that enables you to accept payments in OpenCart version 3 via Payop.com.
 
 ## Requirements
 
-- OpenCart 3.0 or higher
+- OpenCart 3.0
 
 ## Installation
 
@@ -65,15 +65,24 @@ The OpenCart v3 Payop Payment Gateway is a plugin that enables you to accept pay
 
 13. Configure the settings as needed and save your changes.
 
+## Configuration
+
+After installing the Payop plugin, configure the settings as follows:
+
+- **Public Key:** Obtain from your Payop client panel after registering as a merchant on [Payop.com](https://payop.com).
+
+- **Secret Key:** Obtain from your Payop client panel after registering as a merchant on [Payop.com](https://payop.com).
+
+- **Callback/IPN URL:** https://{replace-with-your-domain}/index.php?route=extension/payment/payop/callback
+
 ## Support
 
 If you encounter issues with this plugin, please consider the following support options:
 
 - Open an issue if you are having problems with this plugin.
 - Refer to Payop Documentation.
-- Contact Payop support and provide the following details to help them assist you effectively:
+- Contact [Payop support](https://payop.com/en/contact-us) and provide the following details to help them assist you effectively:
    - OpenCart Version
-   - List of other plugins you have installed
    - Configuration settings for the plugin (consider taking screen grabs)
    - Any log files that may assist
    - Web server error logs
