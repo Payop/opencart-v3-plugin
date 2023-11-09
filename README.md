@@ -100,4 +100,6 @@ This open-source project is released under the MIT license, which means you are 
 
 ## License
 
-Please refer to the LICENSE file included with this project.
+Please refer to the 
+[LICENSE](https://github.com/Payop/opencart-v3-plugin/blob/master/LICENSE)
+file that came with this project.
