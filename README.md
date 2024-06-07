@@ -1,4 +1,4 @@
-Opencart v3 PayOp Payment Gateway
+Opencart v3 Payop Payment Gateway
 =====================
 
 ## Brief Description
@@ -17,17 +17,17 @@ Add the ability to accept payments in Opencart v3 via Payop.com.
  4. After plugin installed, click edit on Payop plugin.
  5. Configure and save your settings accordingly.
 
-You can issue  **Public key** and **Secret key** after register as merchant on PayOp.com.
+You can issue  **Public key** and **Secret key** after register as merchant on Payop.com.
 Opencart plugin work only with POST IPN request HTTP method.
 
-Use below parameters to configure your PayOp project:
+Use below parameters to configure your Payop project:
 * **Callback/IPN URL**: https://{replace-with-your-domain}/index.php?route=extension/payment/payop/callback
 
 ## Support
 
 * [Open an issue](https://github.com/Payop/opencart-v3-plugin/issues) if you are having issues with this plugin.
-* [PayOp Documentation](https://payop.com/en/documentation/common/)
-* [Contact PayOp support](https://payop.com/en/contact-us/)
+* [Payop Documentation](https://payop.com/en/documentation/common/)
+* [Contact Payop support](https://payop.com/en/contact-us/)
   
 **TIP**: When contacting support it will help us is you provide:
 
