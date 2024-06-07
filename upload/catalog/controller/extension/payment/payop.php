@@ -73,7 +73,7 @@ class ControllerExtensionPaymentPayop extends Controller {
         if ($invoiceId === '') {
             $this->log->write('Invoice was not created');
         } else {
-            $redirectUrl = "https://payop.com/{$this->language->get('code')}/payment/invoice-preprocessing/{$invoiceId}";
+            $redirectUrl = "https://checkout.payop.com/{$this->language->get('code')}/payment/invoice-preprocessing/{$invoiceId}";
             $this->response->setOutput(json_encode($redirectUrl));
         }
     }
@@ -127,7 +127,7 @@ class ControllerExtensionPaymentPayop extends Controller {
         $request = json_encode($request);
         if (!$this->curl) {
             $this->curl = curl_init();
-            curl_setopt($this->curl, CURLOPT_URL, 'https://payop.com/v1/invoices/create');
+            curl_setopt($this->curl, CURLOPT_URL, 'https://api.payop.com/v1/invoices/create');
             curl_setopt($this->curl, CURLOPT_SSL_VERIFYPEER, false);
             curl_setopt($this->curl, CURLOPT_RETURNTRANSFER, true);
             curl_setopt($this->curl, CURLOPT_HEADER, true);
