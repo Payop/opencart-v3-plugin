@@ -1,17 +1,9 @@
 <?php
 
-/**
- * Class ModelExtensionPaymentPayop
- *
- * @property Loader             $load
- * @property Config             $config
- * @property Language           $language
- * @property DB\MySQLi          $db
- */
 class ModelExtensionPaymentPayop extends Model {
 
 	/**
-	 * Call when display payments in checkout
+	 * Get method for payment
 	 *
 	 * @param $address
 	 * @param $total
@@ -44,26 +36,5 @@ class ModelExtensionPaymentPayop extends Model {
 		}
 
 		return $method_data;
-	}
-
-	/**
-	 * @param $data
-	 */
-	public function addTransaction($data) {
-		$this->db->query("INSERT INTO `" . DB_PREFIX . "payop_transactions` SET 
-			txid = '" . $this->db->escape($data['txid']) . "',
-			status = '" . $this->db->escape($data['status']) . "',
-			publicKey = '" . $this->db->escape($data['publicKey']) . "',
-			type = '" . $this->db->escape($data['type']) . "',
-			amount = '" . $this->db->escape($data['amount']) . "',
-			currency = '" . $this->db->escape($data['currency']) . "',
-			signature = '" . $this->db->escape($data['signature']) . "',
-			language = '" . $this->db->escape($data['language']) . "',
-			date = '" . $this->db->escape($data['date']) . "',
-			orderId = '" . $this->db->escape($data['orderId']) . "',
-			email = '" . $this->db->escape($data['email']) . "',
-			payopId = '" . $this->db->escape($data['payopId']) . "',
-			error = '" . $this->db->escape($data['error']) . "'
-		");
 	}
 }

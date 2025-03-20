@@ -10,18 +10,38 @@ Add the ability to accept payments in Opencart v3 via Payop.com.
 -  Opencart 3.0+
 
 
-## Installation
- 1. Download latest [release](https://github.com/Payop/opencart-v3-plugin/releases)
- 2. Unzip and upload folder to your site root directory from upload folder.   
- 2. Log in to your Opencart admin dashboard, navigate to the Extentions menu and click "Install" button over against Payop plugin.
- 4. After plugin installed, click edit on Payop plugin.
- 5. Configure and save your settings accordingly.
+## Installation Guide for Payop in OpenCart 3 (via Admin Panel)
 
-You can issue  **Public key** and **Secret key** after register as merchant on Payop.com.
-Opencart plugin work only with POST IPN request HTTP method.
+### 1. Download the Latest Version
+- Go to the [latest release](https://github.com/Payop/opencart-v3-plugin/releases).  
+- Select the latest version from the list of releases (the one at the top is the most recent).  
+- Download the `payop_payment.ocmod.zip` file.  
 
-Use below parameters to configure your Payop project:
-* **Callback/IPN URL**: https://{replace-with-your-domain}/index.php?route=extension/payment/payop/callback
+### 2. Install the Module via OpenCart Admin Panel
+1. Log in to your **OpenCart admin panel**.  
+2. Navigate to **Extensions → Installer**.  
+3. Click the **Upload** button and select the downloaded `payop_payment.ocmod.zip` file.  
+4. Wait for the installation to complete.  
+
+### 3. Enable and Configure the Module
+1. Go to **Extensions → Extensions**.  
+2. In the dropdown menu, select **Payments**.  
+3. Find **Payop Payment Gateway** and click the **Install** button.  
+4. After installation, click the **Edit** button.  
+5. Enter your **Public Key** and **Secret Key** (see the section below for details on how to obtain them).  
+6. In the module settings, the **IPN URL** field will automatically generate a link for processing payments. Copy this link.  
+7. Go to **Payop.com → IPN → Add new IPN**, paste the copied link, and save it.  
+
+### 4. Refresh Modifications
+1. Navigate to **Extensions → Modifications**.  
+2. Click the **Refresh** button at the top right to apply changes.  
+
+### 5. Obtain Public Key and Secret Key in Payop
+1. Log in to your account at [Payop.com](https://payop.com).  
+2. Go to **Projects → Projects list**.  
+3. Select your project and click **Details**.  
+4. You will find **Public Key** and **Secret Key** in the project settings.  
+5. Copy them and paste them into the module settings in OpenCart.  
 
 ## Support
 
